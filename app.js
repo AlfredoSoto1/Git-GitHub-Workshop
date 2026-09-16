@@ -3,8 +3,6 @@
  * Students can read the data first, then follow the task comments below.
  */
 
-const STORAGE_KEY = "team-portfolio-theme";
-
 // SOLO WARM-UP: Change the tagline or about text and refresh the browser.
 const TEAM_INFO = {
   name: "OUR DEVELOPMENT TEAM",
@@ -103,34 +101,7 @@ function renderProjectIdeas() {
   document.querySelector("#idea-count").textContent = "A FEW POSSIBILITIES";
 }
 
-function loadTheme() {
-  try {
-    return localStorage.getItem(STORAGE_KEY) || "light";
-  } catch (error) {
-    return "light";
-  }
-}
-
-function setTheme(theme) {
-  document.body.dataset.theme = theme;
-  document.querySelector("#theme-toggle").setAttribute(
-    "aria-label",
-    theme === "light" ? "Switch to dark theme" : "Switch to light theme",
-  );
-  try {
-    localStorage.setItem(STORAGE_KEY, theme);
-  } catch (error) {
-    // The page still works if the browser blocks local storage.
-  }
-}
-
-document.querySelector("#theme-toggle").addEventListener("click", () => {
-  const nextTheme = document.body.dataset.theme === "light" ? "dark" : "light";
-  setTheme(nextTheme);
-});
-
 renderTeamInfo();
 renderPartners();
 renderSkills();
 renderProjectIdeas();
-setTheme(loadTheme());

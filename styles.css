@@ -26,17 +26,6 @@ body {
   color: var(--navy);
   background: var(--cream);
   font-family: var(--display);
-  transition: background 180ms ease, color 180ms ease;
-}
-
-body[data-theme="dark"] {
-  --navy: #f6f4ea;
-  --cream: #111a3a;
-  --surface: #1d2852;
-  --muted: #bdc5e2;
-  --line: #546193;
-  --lilac: #383a70;
-  --shadow: 8px 8px 0 #050a1d;
 }
 
 button,
@@ -111,24 +100,6 @@ a:focus-visible {
   font-family: var(--mono);
   font-size: 0.64rem;
   letter-spacing: 0.1em;
-}
-
-.theme-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 11px;
-  color: var(--navy);
-  background: var(--lime);
-  border: 2px solid var(--navy);
-  border-radius: 2px;
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  font-weight: 700;
-}
-
-.theme-button:hover {
-  background: var(--pink);
 }
 
 .header-kicker,
@@ -655,4 +626,3 @@ main {
     line-height: 1.5;
   }
 }
-
