@@ -36,6 +36,8 @@ Optional extension: accept `total_tasks` as a parameter instead of assuming four
 
 Work with a partner. Both partners must begin from the same up-to-date `main` branch.
 
+Both partners should first switch to the same up-to-date `main` branch. Partner A creates their branch:
+
 Partner A:
 
 ```bash
@@ -50,13 +52,9 @@ Edit the `TEAM_MESSAGE` line in `src/conflict_practice.py` to:
 TEAM_MESSAGE = "Message written by partner A."
 ```
 
-Commit and push the branch. Merge it into `main` on GitHub, or have the instructor merge it.
-
-Partner B, who has not yet merged the new `main` into their branch:
+Commit and push the branch, but do not merge it yet. Before Partner A merges, Partner B creates a second branch from the same starting commit:
 
 ```bash
-git switch main
-git pull origin main
 git switch -c conflict/partner-b
 ```
 
@@ -66,7 +64,7 @@ Edit the same `TEAM_MESSAGE` line to a different sentence:
 TEAM_MESSAGE = "Message written by partner B."
 ```
 
-Commit the change, then update and merge `main` into the branch:
+Commit and push Partner B's branch. Now merge Partner A's branch into `main` on GitHub, or have the instructor merge it. Partner B can then update local `main` and merge it into their older branch:
 
 ```bash
 git add src/conflict_practice.py
@@ -104,4 +102,3 @@ Discuss why Git could not decide which sentence was correct and why the person r
 - Use `git diff main..feature/add-progress-label` to compare branches.
 - Create a branch, make two commits, and use `git log --graph --oneline --all` to visualize the history.
 - Intentionally break a test, commit the broken version on a temporary branch, and use `git revert` to undo that commit.
-
