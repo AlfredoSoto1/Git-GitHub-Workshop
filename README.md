@@ -1,79 +1,61 @@
-# TrailQuest: Git Workshop Starter
+# Our Development Team
 
-TrailQuest is a small browser adventure for learning Git and GitHub. Students collect progress by completing missions, customize their explorer, and add new content to the map. The project uses plain HTML, CSS, and JavaScript, so there is no framework, package manager, or build step to distract from the Git work.
+This repository contains a super-simple, single-page team portfolio for an HTML, CSS, and JavaScript Git workshop. Students personalize the page, work in separate branches, and then combine their work through GitHub.
 
-The workshop follows the same path as the presentation:
+The page includes:
 
-```text
-local repository -> commits -> GitHub -> branches -> push/pull -> merge conflict -> pull request
-```
+- A team header and About Us section
+- Separate Partner A and Partner B profile cards
+- A shared skills list
+- A shared Project Ideas section
+- A small JavaScript theme toggle
 
-## Run it in a browser
+There is no framework, package manager, or build step.
 
-The quickest option is to open `index.html` in a browser. For a local server that behaves more like a hosted site, run this in the repository folder:
+## Workshop flow
 
-```bash
-python -m http.server 8000
-```
+### 1. Solo warm-up
 
-Then open [http://localhost:8000](http://localhost:8000). Stop the server with `Ctrl+C`.
-
-The app saves the explorer name, completed missions, theme, and custom missions in the browser's local storage. A refresh should keep the progress.
-
-## Solo phase
-
-Students first work alone in a local clone.
-
-1. Run `git status`, open the app, and explore the mission board.
-2. Complete **Task 1** in `app.js` by changing the visible subtitle. Refresh the browser, inspect `git diff`, and make a focused commit.
-3. Create a branch for **Task 2** and add a new mission to the route. Verify that it appears in the browser, then commit and push the branch.
-4. Try **Task 3** if the class is ready for a slightly harder JavaScript change.
-
-Useful commands:
+Open `app.js`, change the `TEAM_INFO` tagline, refresh the page, and inspect the change:
 
 ```bash
 git status
 git diff
-git add app.js
-git commit -m "Update the TrailQuest subtitle"
-git log --oneline
-git switch -c feature/add-mission
-git push -u origin feature/add-mission
 ```
 
-## Team phase
+Make the first commit only after students can explain what changed.
 
-Partner A creates an empty GitHub repository and adds the local repository as `origin`. Partner B accepts the collaborator invitation and clones it.
+### 2. Partner A and Partner B
 
-```bash
-git remote add origin <github-repository-url>
-git push -u origin main
-git clone <github-repository-url>
-```
+Partner A edits only the `PARTNER_A` object. Partner B edits only the `PARTNER_B` object. Each partner creates a branch, tests their change in the browser, commits, pushes, and opens a pull request.
 
-Have each partner work on a separate branch. Before starting a new task, update local `main` with `git pull origin main`. Push branches to GitHub and use a pull request when the class is ready to discuss review.
+The detailed assignment is in [docs/tasks.md](docs/tasks.md).
 
-## Intentional conflict
+### 3. Pull, merge, and conflict resolution
 
-The file `app.js` contains one marked team line named `TEAM_QUOTE`. The full [merge-conflict walkthrough](docs/merge-conflict.md) has the exact sequence, but the important timing is:
+After the profile branches, each partner can make a separate styling or skills change. The intentional conflict exercise uses the placeholder object in `PROJECT_IDEAS`: both partners replace that same object with different project ideas on separate branches.
 
-1. Both partners create branches from the same starting `main` commit.
-2. Partner A changes `TEAM_QUOTE`, commits, pushes, and merges into `main`.
-3. Partner B changes that same line differently on the older branch.
-4. Partner B pulls the updated `main` and runs `git merge main`.
-5. Git pauses. The team resolves the markers, tests the browser app, commits the merge, and pushes the branch.
+Read [docs/merge-conflict.md](docs/merge-conflict.md) for the exact sequence. The important timing is that Partner B creates their branch before Partner A's branch is merged into `main`.
 
-## Files to explore
+## Files
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Page structure and accessible controls |
-| `styles.css` | Visual design, responsive layout, and dark theme |
-| `app.js` | State, rendering, browser interactions, and workshop tasks |
-| `docs/tasks.md` | Solo and team exercise prompts |
-| `docs/merge-conflict.md` | Step-by-step conflict exercise |
+| `index.html` | One-page portfolio structure |
+| `styles.css` | Portfolio layout, colors, responsive design, and dark theme |
+| `app.js` | Team content, rendering, theme toggle, and task comments |
+| `docs/tasks.md` | Separate solo, Partner A, Partner B, and team tasks |
+| `docs/merge-conflict.md` | Intentional same-code-block conflict walkthrough |
 
-## A clean starting point
+## Useful commands
 
-Students should make small commits and keep `main` working. If the class wants to repeat an exercise, clone a fresh copy or create a new branch from the initial workshop commit.
+```bash
+git status
+git diff
+git log --oneline --graph --all
+git branch --all
+git remote -v
+```
+
+This working copy intentionally has no new automatic commit from the redesign. Review the changes, then stage and commit them when you are ready.
 
