@@ -1,106 +1,79 @@
-# Git Workshop: Study Group Tracker
+# TrailQuest: Git Workshop Starter
 
-This repository is a small Python project for practicing the everyday Git workflow:
+TrailQuest is a small browser adventure for learning Git and GitHub. Students collect progress by completing missions, customize their explorer, and add new content to the map. The project uses plain HTML, CSS, and JavaScript, so there is no framework, package manager, or build step to distract from the Git work.
+
+The workshop follows the same path as the presentation:
 
 ```text
-clone -> edit -> test -> commit -> push -> pull -> branch -> merge
+local repository -> commits -> GitHub -> branches -> push/pull -> merge conflict -> pull request
 ```
 
-The code is deliberately small so that the Git changes stay easy to see. It works for an introductory programming class, and the optional tasks add a little more design and testing practice for advanced students.
+## Run it in a browser
 
-## What students will practice
-
-- Reading a repository and running an existing program
-- Making small, focused commits
-- Creating, switching, and deleting branches
-- Pulling changes made by someone else
-- Pushing a branch to GitHub
-- Merging branches
-- Resolving a real merge conflict
-- Writing or extending simple tests
-
-## Quick start
-
-Students can use the GitHub **Code** button to copy the clone URL, then run:
+The quickest option is to open `index.html` in a browser. For a local server that behaves more like a hosted site, run this in the repository folder:
 
 ```bash
-git clone <repository-url>
-cd git-workshop
-python main.py
-python -m unittest discover -s tests -v
+python -m http.server 8000
 ```
 
-If the repository has a different name after cloning, use that folder name in the `cd` command. Python 3.9 or newer is recommended. The project uses only the Python standard library.
+Then open [http://localhost:8000](http://localhost:8000). Stop the server with `Ctrl+C`.
 
-## Suggested workshop sequence
+The app saves the explorer name, completed missions, theme, and custom missions in the browser's local storage. A refresh should keep the progress.
 
-### 1. Explore and make a first commit
+## Solo phase
+
+Students first work alone in a local clone.
+
+1. Run `git status`, open the app, and explore the mission board.
+2. Complete **Task 1** in `app.js` by changing the visible subtitle. Refresh the browser, inspect `git diff`, and make a focused commit.
+3. Create a branch for **Task 2** and add a new mission to the route. Verify that it appears in the browser, then commit and push the branch.
+4. Try **Task 3** if the class is ready for a slightly harder JavaScript change.
+
+Useful commands:
 
 ```bash
 git status
-git log --oneline
-python main.py
-```
-
-Open `src/workshop_tracker.py` and complete **Task 1** by changing the workshop title. Then:
-
-```bash
 git diff
-git add src/workshop_tracker.py
-git commit -m "Update the workshop title"
+git add app.js
+git commit -m "Update the TrailQuest subtitle"
 git log --oneline
+git switch -c feature/add-mission
+git push -u origin feature/add-mission
 ```
 
-### 2. Practice a feature branch
+## Team phase
 
-Create a branch before doing **Task 2**:
+Partner A creates an empty GitHub repository and adds the local repository as `origin`. Partner B accepts the collaborator invitation and clones it.
 
 ```bash
-git switch -c feature/add-progress-label
+git remote add origin <github-repository-url>
+git push -u origin main
+git clone <github-repository-url>
 ```
 
-Make the change, run the tests, and commit it. Students with GitHub access can publish the branch with:
+Have each partner work on a separate branch. Before starting a new task, update local `main` with `git pull origin main`. Push branches to GitHub and use a pull request when the class is ready to discuss review.
 
-```bash
-git push -u origin feature/add-progress-label
-```
+## Intentional conflict
 
-Return to `main` and compare the results:
+The file `app.js` contains one marked team line named `TEAM_QUOTE`. The full [merge-conflict walkthrough](docs/merge-conflict.md) has the exact sequence, but the important timing is:
 
-```bash
-git switch main
-git log --oneline --all --decorate
-git switch feature/add-progress-label
-```
+1. Both partners create branches from the same starting `main` commit.
+2. Partner A changes `TEAM_QUOTE`, commits, pushes, and merges into `main`.
+3. Partner B changes that same line differently on the older branch.
+4. Partner B pulls the updated `main` and runs `git merge main`.
+5. Git pauses. The team resolves the markers, tests the browser app, commits the merge, and pushes the branch.
 
-### 3. Practice pulling a teammate's work
+## Files to explore
 
-One student pushes a branch or merges a small change into the shared GitHub repository. The other student updates their local `main` branch:
+| File | Purpose |
+| --- | --- |
+| `index.html` | Page structure and accessible controls |
+| `styles.css` | Visual design, responsive layout, and dark theme |
+| `app.js` | State, rendering, browser interactions, and workshop tasks |
+| `docs/tasks.md` | Solo and team exercise prompts |
+| `docs/merge-conflict.md` | Step-by-step conflict exercise |
 
-```bash
-git switch main
-git pull origin main
-```
+## A clean starting point
 
-Have students inspect the new commit with `git log --oneline` and run the tests again.
-
-### 4. Resolve the intentional conflict
-
-Follow [docs/merge-conflict.md](docs/merge-conflict.md). Both partners edit the same line in `src/conflict_practice.py` in different ways. Git will be unable to choose one version, which gives the class a safe, small conflict to resolve.
-
-## Exercise map
-
-| Exercise | File | Main idea |
-| --- | --- | --- |
-| Task 1 | `src/workshop_tracker.py` | Make a small edit and commit it |
-| Task 2 | `src/workshop_tracker.py` | Work on a feature branch |
-| Task 3 | `src/workshop_tracker.py` | Add a function and its tests |
-| Task 4 | `src/conflict_practice.py` | Resolve a merge conflict |
-| Advanced | `src/workshop_tracker.py` | Improve validation and edge-case tests |
-
-The full task prompts are in [docs/tasks.md](docs/tasks.md).
-
-## Resetting between demonstrations
-
-If the class changes the files and you want a clean copy, the safest option is to delete the clone and clone it again. If a student has uncommitted work, save it first with a commit or `git diff > my-work.patch`.
+Students should make small commits and keep `main` working. If the class wants to repeat an exercise, clone a fresh copy or create a new branch from the initial workshop commit.
 

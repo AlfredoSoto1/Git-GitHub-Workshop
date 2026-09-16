@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="TrailQuest is a tiny browser adventure for learning Git and GitHub."
+    />
+    <title>TrailQuest | Git Workshop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="TrailQuest home">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span>TrailQuest</span>
+          <span class="brand-tag">GIT WORKSHOP</span>
+        </a>
+        <div class="topbar-actions">
+          <span class="save-status" id="save-status" role="status">Ready to explore</span>
+          <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch to dark theme">
+            <span aria-hidden="true">◐</span>
+          </button>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="eyebrow">FIELD GUIDE / 01</p>
+            <h1 id="hero-title">Find your next <em>good commit.</em></h1>
+            <p class="hero-subtitle" id="hero-subtitle">
+              A tiny adventure for turning small changes into a map of progress.
+            </p>
+            <div class="hero-actions">
+              <button class="primary-button" id="start-quest" type="button">
+                Start today's route <span aria-hidden="true">↗</span>
+              </button>
+              <span class="helper-text">Your progress stays in this browser.</span>
+            </div>
+          </div>
+
+          <div class="hero-art" aria-hidden="true">
+            <div class="sun"></div>
+            <div class="mountain mountain-back"></div>
+            <div class="mountain mountain-front"></div>
+            <div class="trail trail-one"></div>
+            <div class="trail trail-two"></div>
+            <span class="map-pin pin-one">✦</span>
+            <span class="map-pin pin-two">✦</span>
+            <span class="map-pin pin-three">✦</span>
+            <span class="art-label">YOU ARE HERE</span>
+          </div>
+        </section>
+
+        <section class="stats-grid" aria-label="Adventure statistics">
+          <article class="stat-card stat-primary">
+            <div class="stat-label">ROUTE PROGRESS</div>
+            <div class="stat-value" id="progress-value">0%</div>
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <p class="stat-note" id="progress-note">The first step is waiting.</p>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">MISSIONS CLEARED</div>
+            <div class="stat-value" id="missions-value">0 / 3</div>
+            <p class="stat-note">Small work makes visible progress.</p>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">XP EARNED</div>
+            <div class="stat-value" id="xp-value">0</div>
+            <p class="stat-note">Every completed mission counts.</p>
+          </article>
+        </section>
+
+        <div class="content-grid">
+          <section class="panel missions-panel" aria-labelledby="missions-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">YOUR ROUTE</p>
+                <h2 id="missions-title">Mission board</h2>
+              </div>
+              <button class="text-button" id="reset-progress" type="button">Reset progress</button>
+            </div>
+            <div class="mission-list" id="mission-list"></div>
+          </section>
+
+          <aside class="panel profile-panel" aria-labelledby="profile-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">YOUR FIELD NOTES</p>
+                <h2 id="profile-title">Explorer card</h2>
+              </div>
+              <span class="status-dot" title="Local browser storage is active"></span>
+            </div>
+            <div class="avatar" id="avatar" aria-hidden="true">E</div>
+            <p class="profile-greeting">Welcome, <strong id="profile-name">Explorer</strong>.</p>
+            <form class="name-form" id="name-form">
+              <label for="player-name">Change your explorer name</label>
+              <div class="input-row">
+                <input id="player-name" name="player-name" maxlength="24" autocomplete="off" />
+                <button class="small-button" type="submit">Save</button>
+              </div>
+            </form>
+            <div class="badge-section">
+              <div class="badge-heading">
+                <span>BADGES</span>
+                <span id="badge-count">0 / 3</span>
+              </div>
+              <div class="badge-list" id="badge-list"></div>
+            </div>
+          </aside>
+        </div>
+
+        <section class="team-signal" aria-labelledby="team-title">
+          <div class="team-copy">
+            <p class="eyebrow">TEAM SIGNAL / 02</p>
+            <h2 id="team-title">The trail is better with a second set of eyes.</h2>
+            <p class="team-quote" id="team-quote"></p>
+          </div>
+          <div class="team-action-area">
+            <div class="team-status" id="team-status">
+              <span class="signal-icon" aria-hidden="true">◎</span>
+              <span>Solo run</span>
+            </div>
+            <button class="secondary-button" id="team-action" type="button">Invite a teammate</button>
+          </div>
+        </section>
+
+        <section class="panel add-panel" aria-labelledby="add-title">
+          <div class="add-copy">
+            <p class="eyebrow">MAKE THE MAP YOURS</p>
+            <h2 id="add-title">Add a custom mission</h2>
+            <p>Use this form to create a small goal for your own route. It is saved locally.</p>
+          </div>
+          <form class="mission-form" id="mission-form">
+            <div class="form-field">
+              <label for="mission-title">Mission title</label>
+              <input id="mission-title" name="mission-title" maxlength="48" placeholder="Name your next step" required />
+            </div>
+            <div class="form-field">
+              <label for="mission-detail">One-line detail</label>
+              <input id="mission-detail" name="mission-detail" maxlength="96" placeholder="What will you practice?" required />
+            </div>
+            <button class="primary-button" type="submit">Add to route <span aria-hidden="true">＋</span></button>
+          </form>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>TRAILQUEST / A GIT WORKSHOP PROJECT</span>
+        <span>Open the console if you want to inspect the JavaScript.</span>
+      </footer>
+    </div>
+  </body>
+</html>
+

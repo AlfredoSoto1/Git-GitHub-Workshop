@@ -1,28 +1,89 @@
-# Merge-conflict walkthrough
+# Intentional merge-conflict walkthrough
 
-This is the short version of Task 4. It assumes two partners and a shared GitHub repository.
+This exercise makes Git stop on purpose. It mirrors the presentation's example where two branches edit the same line in different ways.
 
-1. Both partners update to the same `main` commit. Partner A creates `conflict/partner-a`, changes the `TEAM_MESSAGE` line, commits, and pushes the branch.
-2. Before Partner A's branch is merged, Partner B creates `conflict/partner-b` from that same starting commit, changes the exact same line to a different value, commits, and pushes.
-3. Partner A's branch is merged into `main` on GitHub. Partner B runs `git switch main`, `git pull origin main`, switches back to `conflict/partner-b`, and runs `git merge main`.
-4. Git stops and reports a conflict because both branches changed the same line.
-5. Partner B opens `src/conflict_practice.py`, chooses or combines the two messages, and removes all `<<<<<<<`, `=======`, and `>>>>>>>` marker lines.
-6. Partner B runs the tests, stages the resolved file, commits the merge, and pushes the branch.
+## Before starting
 
-Useful commands while resolving:
+Both partners need the same clean `main` commit. Do not start the exercise with uncommitted changes. Partner B must create their branch before Partner A merges into `main`.
+
+## Create the two competing changes
+
+Partner A:
+
+```bash
+git switch main
+git pull origin main
+git switch -c conflict/partner-a
+```
+
+In `app.js`, change only the `TEAM_QUOTE` line to:
+
+```javascript
+const TEAM_QUOTE = "Partner A says every trail should have a clear signpost.";
+```
+
+Commit and push the branch, but wait before merging:
+
+```bash
+git add app.js
+git commit -m "Add partner A team message"
+git push -u origin conflict/partner-a
+```
+
+Partner B now creates their branch from the same original `main` commit. If both partners use the same clone, Partner B should create the branch before Partner A's branch is merged:
+
+```bash
+git switch main
+git switch -c conflict/partner-b
+```
+
+In `app.js`, change the same `TEAM_QUOTE` line to:
+
+```javascript
+const TEAM_QUOTE = "Partner B says the best routes leave room for others.";
+```
+
+Commit and push:
+
+```bash
+git add app.js
+git commit -m "Add partner B team message"
+git push -u origin conflict/partner-b
+```
+
+## Trigger the conflict
+
+Partner A merges `conflict/partner-a` into `main` on GitHub, or the instructor merges it. Partner B then updates local `main` and merges it into the older branch:
+
+```bash
+git switch main
+git pull origin main
+git switch conflict/partner-b
+git merge main
+```
+
+Git should report a conflict because both branches changed the same line differently.
+
+## Resolve and verify
+
+Open `app.js`. Git will show the two competing lines between markers labeled `<<<<<<< HEAD`, `=======`, and `>>>>>>> main`.
+
+Choose one message or write a third message that combines the idea. Delete all marker lines. Save the file, refresh the browser, and confirm the quote in the orange Team Signal section is readable.
+
+Finish the merge:
 
 ```bash
 git status
 git diff
-python -m unittest discover -s tests -v
-git add src/conflict_practice.py
+git add app.js
 git commit -m "Resolve team message conflict"
+git push origin conflict/partner-b
 ```
 
-To cancel the merge demonstration and return to the state before `git merge main`, run:
+If the class wants to cancel the demonstration before resolving it:
 
 ```bash
 git merge --abort
 ```
 
-Only use `git merge --abort` while a merge is in progress and before staging a resolution.
+Only use `git merge --abort` while the merge is still in progress.

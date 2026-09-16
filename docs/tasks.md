@@ -1,104 +1,90 @@
-# Workshop tasks
+# TrailQuest workshop tasks
 
-These prompts are intentionally small. Ask students to make one change at a time, inspect the diff, and commit after the tests pass.
+These tasks start with one-person edits and end with a two-person merge. Keep the app open in the browser while working so students can see the result of each commit.
 
-## Task 1 — First edit (introductory)
+## Solo Task 1 — Change something visible
 
-In `src/workshop_tracker.py`, change `WORKSHOP_TITLE` to a title chosen by the class. Run the program and make one commit.
+Open `app.js` and find `APP_CONFIG` near the top. Change the `subtitle` text to something your class likes. Open or refresh `index.html` in the browser.
 
-Suggested commit message: `Update the workshop title`
-
-Questions to discuss:
-
-- What changed in `git diff`?
-- What is the difference between a working-tree change and a commit?
-- How can `git log --oneline` show the new commit?
-
-## Task 2 — Feature branch (introductory)
-
-Create a branch named `feature/add-progress-label`. Update `status_message` so a student with 100% completion receives a special message, such as `Ada: finished!`. Keep the existing percentage format for students who are not finished.
-
-Add a test for the new behavior, run all tests, commit, and push the branch.
-
-## Task 3 — Add a feature (advanced)
-
-Implement `unfinished_students(students)` in `src/workshop_tracker.py`. It should return a new list containing the records with fewer than four completed tasks. Do not change the original list.
-
-Add tests for:
-
-1. A list containing both finished and unfinished students.
-2. An empty list.
-3. A list where every student is finished.
-
-Optional extension: accept `total_tasks` as a parameter instead of assuming four.
-
-## Task 4 — Intentional merge conflict (team exercise)
-
-Work with a partner. Both partners must begin from the same up-to-date `main` branch.
-
-Both partners should first switch to the same up-to-date `main` branch. Partner A creates their branch:
-
-Partner A:
+Then inspect and commit the change:
 
 ```bash
-git switch main
-git pull origin main
-git switch -c conflict/partner-a
+git diff
+git add app.js
+git commit -m "Update the TrailQuest subtitle"
 ```
 
-Edit the `TEAM_MESSAGE` line in `src/conflict_practice.py` to:
+Discussion: What changed in the working tree? What did the commit record? Use `git show` to inspect the snapshot.
 
-```python
-TEAM_MESSAGE = "Message written by partner A."
-```
+## Solo Task 2 — Add a mission on a branch
 
-Commit and push the branch, but do not merge it yet. Before Partner A merges, Partner B creates a second branch from the same starting commit:
+Create a branch before editing:
 
 ```bash
-git switch -c conflict/partner-b
+git switch -c feature/add-mission
 ```
 
-Edit the same `TEAM_MESSAGE` line to a different sentence:
+In `STARTER_MISSIONS`, add one object with these fields:
 
-```python
-TEAM_MESSAGE = "Message written by partner B."
+```javascript
+{
+  id: "unique-id",
+  icon: "★",
+  label: "BONUS ROUTE",
+  title: "A short mission name",
+  detail: "A sentence that explains the mission.",
+  points: 25,
+}
 ```
 
-Commit and push Partner B's branch. Now merge Partner A's branch into `main` on GitHub, or have the instructor merge it. Partner B can then update local `main` and merge it into their older branch:
+Refresh the browser and confirm the mission appears. Complete it, observe the progress and XP counters, then commit and publish the branch:
 
 ```bash
-git add src/conflict_practice.py
-git commit -m "Write a team message"
-git switch main
-git pull origin main
-git switch conflict/partner-b
-git merge main
+git add app.js
+git commit -m "Add a bonus TrailQuest mission"
+git push -u origin feature/add-mission
 ```
 
-Git should report a conflict. Open the file and find the markers:
+## Solo Task 3 — Extend the interaction (advanced)
 
-```text
-<<<<<<< HEAD
-your branch's version
-=======
-the version from main
->>>>>>> main
-```
+Add a fourth object to `BADGES`. Decide what achievement unlocks it and update `renderProfile()` so that the rule is visible in the browser. For example, award it when the explorer has earned at least 60 XP.
 
-Delete the markers and keep one sentence—or combine the ideas into a new sentence. Then finish the merge:
+Optional extensions:
+
+- Add a difficulty field to missions and display it in each card.
+- Add a button that removes only custom missions.
+- Add a filter that shows only cleared or uncleared missions.
+- Improve the keyboard or screen-reader experience and explain the change in your commit message.
+
+## Team Task 4 — Two branches, one feature each
+
+Partner A and Partner B should clone the same repository and work on separate branches. Choose two independent improvements, such as a visual change in `styles.css` and a new input field in `index.html`. Each partner should:
+
+1. Create a branch with `git switch -c feature/<short-name>`.
+2. Make one focused change.
+3. Refresh the browser and check the result.
+4. Commit and push the branch.
+5. Open a pull request or compare the branches with `git diff main..feature/<short-name>`.
+
+Review each other's code before merging. Keep `main` working.
+
+## Team Task 5 — Resolve the intentional conflict
+
+Use the exact sequence in [merge-conflict.md](merge-conflict.md). The conflict is in `app.js`, where both partners edit the same `TEAM_QUOTE` line before one branch reaches `main`.
+
+After the merge conflict appears, remove the conflict markers, keep or combine the messages, refresh the browser, and check that the team quote still renders. Finish with a merge commit and push the resolved branch.
+
+## Git investigation cards
+
+Use these as short demonstrations while students are working:
 
 ```bash
-git add src/conflict_practice.py
-python -m unittest discover -s tests -v
-git commit -m "Resolve team message conflict"
-git push -u origin conflict/partner-b
+git status
+git log --oneline --graph --all
+git show <commit>
+git diff main..feature/add-mission
+git branch --all
+git remote -v
 ```
 
-Discuss why Git could not decide which sentence was correct and why the person resolving the conflict must understand the intended behavior.
-
-## Optional investigation tasks
-
-- Use `git show <commit>` to inspect one commit.
-- Use `git diff main..feature/add-progress-label` to compare branches.
-- Create a branch, make two commits, and use `git log --graph --oneline --all` to visualize the history.
-- Intentionally break a test, commit the broken version on a temporary branch, and use `git revert` to undo that commit.
+Ask students to predict what each command will show before they run it.
